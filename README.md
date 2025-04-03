@@ -70,8 +70,10 @@ crontab -e
 ```
 Add the following lines:
 ```bash
-* * * * * /path/to/push_status.sh
-* * * * * sleep 30 && /path/to/push_status.sh
+* * * * * /home/midnight/md_scirpts/push_status.sh
+* * * * * sleep 15 && /home/midnight/md_scirpts/push_status.sh
+* * * * * sleep 30 && /home/midnight/md_scirpts/push_status.sh
+* * * * * sleep 45 && /home/midnight/md_scirpts/push_status.sh
 ```
 
 ---
