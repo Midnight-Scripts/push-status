@@ -79,8 +79,8 @@ Add the following lines:
 ---
 
 ## ⛔ Security Notes
-- Your API key is rate-limited: **Max 2 pushes per minute**
-- More than 2 pushes per minute → **5-minute temporary block**
+- Your API key is rate-limited: **Max 10 pushes per minute**
+- More than 10 pushes per minute → **5-minute temporary block**
 - Invalid payload format → **permanent block**
 - Unauthorized or unknown keys are rejected
 
