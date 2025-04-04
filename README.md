@@ -1,15 +1,18 @@
 # 📅 Midnight Node Status Push
 
-This repository contains a script that securely pushes node metrics to a Cloudflare Worker endpoint for the [Midnight Pool Status](https://midnight.poolinfo.me/) dashboard.
+This repository contains a script that  pushes node metrics to a API endpoint for the [Midnight Pool Status](https://midnight.poolinfo.me/) dashboard.
 
 ---
 
+<img width="1339" alt="enigma_midnight" src="https://github.com/user-attachments/assets/4fafb924-39fc-4430-a4a6-c79dea276822" />
+
+
 ## 🔍 Overview
 This tool is meant for Midnight node validators who want to:
-- Monitor their node health and performance, and showcase it to delegators.
+- Monitor their node health and performance, and showcase it to Delegators.
 - Contribute node data to the public community dashboard.
 
-The push script collects real-time information such as block height, sync percentage, uptime, and key checks (Aura, Grandpa, Sidechain). The script does **not** send out public keys — only the key presence status. All data is securely transmitted to a Cloudflare Worker.
+The push script collects real-time information such as block height, sync percentage, uptime, and key checks (Aura, Grandpa, Sidechain). The script does **not** send out public or any keys — only the key presence status.
 
 ---
 
@@ -31,8 +34,8 @@ To push your node data, you need an API key associated with your pool name.
 Please provide:
 - Desired node name (e.g., `MoonStake`, `Enigma`)
 
-Once approved, you will receive:
-- A unique **API Key** to be used in the Authorization header
+Once verified, you will receive:
+- A unique **API Key** to be used in the script
 
 ---
 
@@ -48,7 +51,7 @@ Once approved, you will receive:
    Edit the script `push_status.sh`:
    ```bash
    API_KEY="your-key-here"
-   ENDPOINT="https://midnight.voise.workers.dev/push"
+   ENDPOINT="https://midnightapi-production.up.railway.app/push"
    ```
 
 3. **Test your push:**
@@ -63,7 +66,7 @@ Once approved, you will receive:
 ---
 
 ## ⏱ Recommended Cron Setup
-To send updates every 30 seconds:
+To send updates every 15 seconds:
 
 ```bash
 crontab -e
@@ -116,4 +119,3 @@ If you build tools on top of this — we'd love to hear from you!
 
 ## 📁 License
 MIT
-
