@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # CONFIG
-API_KEY="870bf5e863ed8ec795cd20396048e381"
+API_KEY="your_api_key"
 ENDPOINT="https://midnightapi-production.up.railway.app/push"
 CONTAINER_NAME="midnight"
 PORT="9944"
@@ -19,7 +19,6 @@ exec_cmd() {
 }
 
 # Static info
-NODE_KEY=$(grep -E '^NODE_KEY=' "$ENV_FILE" | cut -d= -f2 | tr -d '"')
 NODE_VERSION=$(exec_cmd curl -s -X POST -d '{"jsonrpc":"2.0","id":1,"method":"system_version","params":[]}' \
   -H "Content-Type: application/json" "$RPC_URL" | jq -r '.result')
 
@@ -59,6 +58,8 @@ BLOCKS_PRODUCED=$(curl -s http://127.0.0.1:9615/metrics | awk -F' ' '/substrate_
 STATUS="idle"
 [[ "$BLOCKS_PRODUCED" -gt 0 ]] && STATUS="minting"
 
+POOL_NAME=$(basename "$SCRIPT_DIR")
+
 # ─── KEY CHECKING (like live.sh) ─────────────────────
 declare -A KEY_ITEMS=( ["grandpa_pub_key"]="gran" ["aura_pub_key"]="aura" ["sidechain_pub_key"]="crch" )
 declare -A HAS_KEYS
@@ -79,7 +80,6 @@ done
 
 # JSON payload
 JSON=$(jq -n \
-  --arg node_key "$NODE_KEY" \
   --arg version "$NODE_VERSION" \
   --arg started_at "$START_TIME" \
   --arg uptime "$UPTIME" \
@@ -89,11 +89,11 @@ JSON=$(jq -n \
   --argjson peers "$PEERS" \
   --argjson blocks "$BLOCKS_PRODUCED" \
   --arg status "$STATUS" \
+  --arg pool_name "$POOL_NAME" \
   --argjson aura_found "${HAS_KEYS[aura_pub_key]}" \
   --argjson grandpa_found "${HAS_KEYS[grandpa_pub_key]}" \
   --argjson sidechain_found "${HAS_KEYS[sidechain_pub_key]}" \
   '{
-    node_key: $node_key,
     midnight_version: $version,
     started_at: $started_at,
     uptime: $uptime,
@@ -103,6 +103,7 @@ JSON=$(jq -n \
     peers: $peers,
     blocks_produced: $blocks,
     status: $status,
+    pool_name: $pool_name,
     keys: {
       aura: $aura_found,
       grandpa: $grandpa_found,
@@ -111,7 +112,11 @@ JSON=$(jq -n \
   }')
 
 # Send it
-curl -s -X POST "$ENDPOINT" \
+echo -e "\n✅ Data stored for: $POOL_NAME"
+echo "$JSON" | jq .
+
+echo -e "\n📥 API Response:"
+curl -X POST "$ENDPOINT" \
   -H "Authorization: Bearer $API_KEY" \
   -H "Content-Type: application/json" \
   -d "$JSON"
