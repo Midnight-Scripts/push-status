@@ -2,7 +2,7 @@
 
 # CONFIG
 API_KEY="870bf5e863ed8ec795cd20396048e381"
-ENDPOINT="https://midnight.voise.workers.dev/push"
+ENDPOINT="https://midnightapi-production.up.railway.app/push"
 CONTAINER_NAME="midnight"
 PORT="9944"
 USE_DOCKER=true
