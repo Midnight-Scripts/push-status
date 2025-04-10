@@ -72,6 +72,7 @@ To send updates every 15 seconds:
 crontab -e
 ```
 Add the following lines:
+note - make sure to update your path plz.
 ```bash
 * * * * * /home/midnight/md_scirpts/push_status.sh
 * * * * * sleep 15 && /home/midnight/md_scirpts/push_status.sh
