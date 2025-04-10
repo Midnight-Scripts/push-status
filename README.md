@@ -20,6 +20,7 @@ The push script collects real-time information such as block height, sync percen
 - A running Midnight validator node
 - Bash shell (Linux/macOS)
 - `curl`, `jq`, and `docker` installed on your system
+- Make sure you have `partner-chains-public-keys.json` in the same folder as the scirpt
 - An API key (see below to request)
 
 ---
